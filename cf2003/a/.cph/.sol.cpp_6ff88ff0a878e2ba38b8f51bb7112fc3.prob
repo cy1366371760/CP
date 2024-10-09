@@ -1,0 +1,1 @@
+{"name":"Local: sol","url":"/Users/cyoung/Desktop/CP/cf2003/a/sol.cpp","tests":[{"id":1724596659845,"input":"4\n2\naa\n3\naba\n4\nabcb\n12\nabcabcabcabc\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/cf2003/a/sol.cpp","group":"local","local":true}

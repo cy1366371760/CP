@@ -1,0 +1,1 @@
+{"name":"Local: stupid","url":"/Users/cyoung/Desktop/CP/arc184/d/stupid.cpp","tests":[{"id":1727023621492,"input":"4\n1 4\n2 2\n3 3\n4 1","output":""},{"id":1727023806506,"input":"6\n1 6\n2 4\n3 5\n4 3\n5 1\n6 2","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/arc184/d/stupid.cpp","group":"local","local":true}

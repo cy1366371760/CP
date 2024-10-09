@@ -1,0 +1,1 @@
+{"name":"Local: f","url":"/Users/cao_young/Desktop/CP/abc362/f.cpp","tests":[{"id":1720874749029,"input":"4\n1 2\n2 3\n3 4\n","output":""},{"id":1720874888113,"input":"3\n1 2\n2 3\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cao_young/Desktop/CP/abc362/f.cpp","group":"local","local":true}

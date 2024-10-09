@@ -1,0 +1,1 @@
+{"name":"Local: i","url":"/Users/cyoung/Desktop/CP/cerc20/i.cpp","tests":[{"id":1728069708623,"input":"3 3\n2 2 1","output":""},{"id":1728070022293,"input":"5 5\n1 2 3 4 5","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/cerc20/i.cpp","group":"local","local":true}

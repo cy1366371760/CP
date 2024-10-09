@@ -1,0 +1,1 @@
+{"name":"Local: d","url":"/Users/cao_young/Desktop/CP/gym_zhengzhou/d.cpp","tests":[{"id":1716564884154,"input":"2\n2\n0 0\n0 1\n3\n1 1\n2 3\n5 8","output":"1"},{"id":1716566850750,"input":"1","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cao_young/Desktop/CP/gym_zhengzhou/d.cpp","group":"local","local":true}

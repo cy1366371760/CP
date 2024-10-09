@@ -1,0 +1,1 @@
+{"name":"Local: sol","url":"/Users/cyoung/Desktop/CP/abc373/g/sol.cpp","tests":[{"id":1727527378258,"input":"8\n59 85\n60 57\n72 12\n3 27\n16 58\n41 94\n77 64\n97 20\n32 37\n7 2\n57 94\n35 70\n38 60\n97 100\n5 76\n38 8\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/abc373/g/sol.cpp","group":"local","local":true}

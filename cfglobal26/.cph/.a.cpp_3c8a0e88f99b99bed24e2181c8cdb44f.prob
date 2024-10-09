@@ -1,0 +1,1 @@
+{"name":"Local: a","url":"/Users/cao_young/Desktop/CP/cfglobal26/a.cpp","tests":[{"id":1717944014800,"input":"7\n4\n1 1 2 2\n5\n1 2 3 4 5\n3\n3 3 3\n4\n1 2 2 2\n3\n1 2 2\n3\n1 1 2\n3\n1 9 84\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cao_young/Desktop/CP/cfglobal26/a.cpp","group":"local","local":true}

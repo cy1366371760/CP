@@ -1,0 +1,1 @@
+{"name":"Local: sol","url":"/Users/cyoung/Desktop/CP/UKIEPC2023/b/sol.cpp","tests":[{"id":1722334007523,"input":"3 3 5\n1 1\n1 2\n1 2\n3 1\n2 3\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/UKIEPC2023/b/sol.cpp","group":"local","local":true}

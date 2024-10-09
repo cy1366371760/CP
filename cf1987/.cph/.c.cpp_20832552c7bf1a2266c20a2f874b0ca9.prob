@@ -1,0 +1,1 @@
+{"name":"Local: c","url":"/Users/cao_young/Desktop/CP/cf1987/c.cpp","tests":[{"id":1719759105307,"input":"4\n3\n1 1 2\n2\n3 1\n1\n9\n5\n7 4 4 3 2\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cao_young/Desktop/CP/cf1987/c.cpp","group":"local","local":true}

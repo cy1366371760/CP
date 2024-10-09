@@ -1,0 +1,1 @@
+{"name":"Local: sol","url":"/Users/cyoung/Desktop/CP/acl1/e/sol.cpp","tests":[{"id":1725753235436,"input":"3 2\n1 2 3\n","output":""},{"id":1725753411653,"input":"10 3\n1 8 4 9 2 3 7 10 5 6\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/acl1/e/sol.cpp","group":"local","local":true}
