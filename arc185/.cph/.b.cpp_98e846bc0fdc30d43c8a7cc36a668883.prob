@@ -1,0 +1,1 @@
+{"name":"Local: b","url":"/Users/cyoung/Desktop/CP/arc185/b.cpp","tests":[{"id":1728821608510,"input":"3\n3\n1 7 5\n2\n9 0\n10\n607 495 419 894 610 636 465 331 925 724\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/arc185/b.cpp","group":"local","local":true}

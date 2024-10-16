@@ -1,38 +1,29 @@
-namespace siever  
-{  
+namespace siever {  
     const int N = 2e5 + 100;  
     ll n, B, num;  
     ll val[N], g[2][N], sum[2][N], f[N], pre[N];  
-    int ps1[N], ps2[N];  
-        
-    int pos(ll x)  
-    {  
+    int ps1[N], ps2[N];      
+    int pos(ll x) {  
         if(x <= B)  
             return ps1[x];  
         return ps2[n / x];  
     }  
-        
     int pnum;  
     int pri[N];  
     bool np[N];
-    
-    void work(ll _n)  
-    {  
+    void work(ll _n) {  
         n = _n;  
         B = sqrt(n);  
         /*
             sum[k][i] = Prefix Sum of [pri_i ^ k]
         */
-        for(int i = 2; i <= B; i++)  
-        {  
-            if(!np[i])  
-            {  
+        for (int i = 2; i <= B; i++) {  
+            if(!np[i]) {  
                 pri[++pnum] = i;  
                 sum[0][pnum] = pnum;  
                 sum[1][pnum] = (sum[1][pnum - 1] + i) % mod;  
             }  
-            for(int j = 1; j <= pnum && i * pri[j] <= B; j++)  
-            {  
+            for(int j = 1; j <= pnum && i * pri[j] <= B; j++) {  
                 np[i * pri[j]] = 1;  
                 if(i % pri[j] == 0)  
                     break;  
@@ -44,8 +35,7 @@ namespace siever
 
             g[k][i] Indicates Prefix Sum of (i ^ k), Notice it Starts From Index 2nd
         */
-        for(ll l = 1, r; l <= n; l = r + 1)  
-        {  
+        for (ll l = 1, r; l <= n; l = r + 1) {  
             ll x = n / l;  
             r = n / x;  
             val[++num] = x;  
@@ -60,10 +50,8 @@ namespace siever
             Calculate Prefix Sum of (i ^ k) with [i is Prime]
             g[k][num] = Prefix Sum from (1 to val[num]) of (i ^ k) with [i is Prime]
         */
-        for(int i = 1; i <= pnum; ++i)  
-        {  
-            for(int j = 1; j <= num && 1LL * pri[i] * pri[i] <= val[j]; ++j)  
-            {  
+        for(int i = 1; i <= pnum; ++i) {  
+            for(int j = 1; j <= num && 1LL * pri[i] * pri[i] <= val[j]; ++j) {  
                 int bf = pos(val[j] / pri[i]);  
                 g[0][j] = (g[0][j] - g[0][bf] + sum[0][i - 1] + mod) % mod;  
                 g[1][j] = (g[1][j] - pri[i] * (g[1][bf] - sum[1][i - 1] + mod) % mod + mod) % mod;  
@@ -79,15 +67,12 @@ namespace siever
             f[i] = (g[1][i] - g[0][i] + mod) % mod;  
         for(int i = 1; i <= pnum; i++)  
             pre[i] = (sum[1][i] - sum[0][i] + mod) % mod;  
-        for(int j = pnum; j >= 1; j--)  
-        {  
-            for(int i = 1; i <= num; i++)  
-            {  
+        for(int j = pnum; j >= 1; j--) {  
+            for(int i = 1; i <= num; i++) {  
                 if(1LL * pri[j] * pri[j] > val[i])  
                     break;   
                 ll tmp = pri[j];  
-                for(int e = 1; tmp <= val[i] / pri[j]; e++, tmp *= pri[j])  
-                {  
+                for(int e = 1; tmp <= val[i] / pri[j]; e++, tmp *= pri[j]) {  
                     /*
                         s = Contribution of [Prime_{j} ^ e]
                         t = Contribution of [Prime_{j} ^ (e+1)]

@@ -1,5 +1,18 @@
 {
     "files.associations": {
-        "string": "cpp"
+        "string": "cpp",
+        "ios": "cpp",
+        "tuple": "cpp",
+        "__hash_table": "cpp",
+        "__tree": "cpp",
+        "map": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "iosfwd": "cpp",
+        "__split_buffer": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "initializer_list": "cpp",
+        "string_view": "cpp"
     }
 }
