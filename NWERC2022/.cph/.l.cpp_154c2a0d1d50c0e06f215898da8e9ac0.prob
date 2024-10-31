@@ -1,0 +1,1 @@
+{"name":"Local: l","url":"/Users/cyoung/Desktop/CP/NWERC2022/l.cpp","tests":[{"id":1729975632167,"input":"4 5\nreply YYGBB\nrefer BBBGG\npuppy YYGBB\n","output":""},{"id":1729975830525,"input":"2 12\naabbccddeeff GGGYGBYYYBBB\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/NWERC2022/l.cpp","group":"local","local":true}

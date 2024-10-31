@@ -12,7 +12,7 @@
 #define double long double
 #define int long long
 using namespace std;
-const int N = 1e6 + 100;
+const int N = 2e6 + 10000;
 const int inf = 1e9;
 //const ll inf = 1e18;
 const ll mod = 1e9 + 7;
@@ -51,11 +51,12 @@ namespace dec
 	bool np[N];
 	void init()
 	{
-		int n = 1e6;
+		int n = (int)2e6 + 1000;
 		for(int i = 2; i <= n; i++)
 		{
-			if(!np[i])
+			if(!np[i]) {
 				pri[++pnum] = i;
+			}
 			for(int j = 1; j <= pnum && i * pri[j] <= n; j++)
 			{
 				np[i * pri[j]] = 1;
@@ -109,6 +110,7 @@ void sol()
 	ll n, m;
 	cin >> n;
 	dec::init();
+
 	VLL res = dec::work(n);
 	trav(v, res)
 		cerr << v << '\n';

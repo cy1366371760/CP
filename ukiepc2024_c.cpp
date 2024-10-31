@@ -1,281 +1,144 @@
-#include<bits/stdc++.h>
-#define ll long long
-#define pii pair<int,int>
-#define fi first
-#define sc second
-#define pb push_back
-#define eb emplace_back
-#define nl '\n'
-#define all(x) (x).begin(),(x).end()
+#include <bits/stdc++.h>
 using namespace std;
-using ld = long double;
-template<class T> bool chkmin(T &x, T y) {if (x > y) {x = y;return 1;}return 0;}
-template<class T> bool chkmax(T &x, T y) {if (x < y) {x = y;return 1;}return 0;}
 
-const ld EPS = 1e-14;
-const ld inf = 1e18;
+const double INF = 1e9;
+const double EPS = 1e-9;
 
+struct pt {
+    double x, y;
 
-int sgn(ld x) {
-    return x < -EPS ? -1 : x > EPS;
-}
+    pt() {}
+    pt(double _x, double _y) : x(_x), y(_y) {}
 
-struct Point {
-    ld x, y;
-    Point(ld x = 0, ld y = 0): x(x), y(y) {}
-
-    bool operator<(Point B) const {
-        return x == B.x ? y < B.y : x < B.x;
-    }
-    bool operator==(Point B) const {
-        return !sgn(x - B.x) && !sgn(y - B.y);
-    }
-    bool operator<=(Point B) const {
-        return ((*this) < B) || ((*this) == B);
+    pt operator- (const pt &p) const {
+        return pt(x - p.x, y - p.y);
     }
 
-
-    Point operator+(Point B) const {
-        return Point(x + B.x, y + B.y);
+    pt operator+ (const pt &p) const {
+        return pt(x + p.x, y + p.y);
     }
 
-    Point operator-(Point B) const {
-        return Point(x - B.x, y - B.y);
-    }
-    Point operator *(ld a) const {
-        return Point(x * a, y * a);
-    }
-    ld operator *(Point B) const {
-        return x * B.x + y * B.y;
-    }
-    ld operator^(Point B) const {
-        return x*B.y - y*B.x;
-    }
-    ld length2() {
-        return x * x + y * y;
-    }
-    ld length() {
-        return sqrtl(length2());
+    pt operator* (double d) const {
+        return pt(x * d, y * d);
     }
 
-    friend int rela(Point a, Point b, Point c) {
-        return sgn((b-a) ^ (c-a));
+    pt operator/ (double d) const {
+        return (*this) * (1 / d);
+    }
+
+    pt rotate90() const {
+        return pt(-y, x);
+    }
+
+    pt norm() const {
+        return (*this) / d();
+    }
+
+    double operator* (const pt &p) const {
+        return x * p.y - y * p.x;
+    }
+
+    double operator% (const pt &p) const {
+        return x * p.x + y * p.y;
+    }
+
+    double d2() const {
+        return (*this) % (*this);
+    }
+
+    double d() const {
+        return sqrt(d2());
     }
 };
 
-struct Line {
-    Point p, v;
-    ld rad;
-    Line(Point p, Point v): p(p), v(v) {
-        rad = atan2l(v.y, v.x);
-    }
-    Point get_point(ld t) {
-        return p + v * t;
-    }
-    bool parallel(Line b) {
-        if (!sgn(v ^ b.v)) {
-            return 1;
-        }
-        return 0;
-    }
-
-    int under(Point a) {
-        return rela(p, p+v, a);
-    }
-
-    bool colinear(Line b) {
-        if (parallel(b)) {
-            if (!sgn((b.p - p) ^ v)) {
-                return 1;
-            }
-        }
-        return 0;
-    }
-    Point foot(Point a) {
-        return p + v * (v * (a - p) / v.length2());
-    }
-    Point symmetry(Point a) {
-        return foot(a) + foot(a) - a;
-    }
-    Point intersect(Line b) {
-        assert(!parallel(b));
-        Point u = p - b.p;
-        ld t = (b.v ^ u) / (v ^ b.v);
-        return get_point(t);
-    }
-};
-
-struct Segment {
-    Point a, b;
-    Segment(){}
-    Segment(Point aa, Point bb) {
-        if (bb < aa) {
-            swap(bb, aa);
-        }
-
-        a = aa; b = bb;
-    }
-
-    bool parallel(Segment seg) {
-        return Line(a,b-a).parallel(Line(seg.a, seg.b - seg.a));
-    }
-
-    bool colinear(Segment seg) {
-        if (seg.a == seg.b) {
-            if (Line(a, b-a).under(seg.a) == 0) {
-                if (a <= seg.a && seg.a <= b) {
-                    return 1;
-                }
-            }
-            return 0;
-        }
-
-        if (Line(a, b-1).colinear(Line(seg.a, seg.b-seg.a))) {
-            if ((a <= seg.a && seg.a <= b) || (seg.a <= a && a <= seg.b)) {
-                return 1;
-            }
-        }
-        return 0;
-    }
-
-    bool is_intersect(Segment seg) {
-        if (parallel(seg)) {
-            return colinear(seg);
-        }
-        const Point &a1 = a, &a2 = b, &b1 = seg.a, &b2 = seg.b;
-        ld c1 = (a2 - a1) ^ (b1 - a1);
-        ld c2 = (a2 - a1) ^ (b2 - a1);
-        ld c3 = (b2 - b1) ^ (a1 - b1);
-        ld c4 = (b2 - b1) ^ (a2 - b1);
-        return sgn(c1) * sgn(c2) <= 0 && sgn(c3) * sgn(c4) <= 0;
-    }
-};
-
-
-vector<Point> shape1, shape2;
-
-
-inline double get_area(vector<Point> pts) {
-    ld res = 0;
-    for (int i=1;i+1<pts.size();i++) {
-        res += (pts[i] - pts[0]) ^ (pts[i+1] - pts[0]);
-    }
-
-    return fabsl(res)/2.0;
+pt mirror(pt a, pt b, pt p) {
+    pt v = (b - a).norm();
+    pt n = v.rotate90();
+    pt res = p + n * (-2 * ((p - a) % n));
+    return res;
 }
 
-
-
-inline bool intersect_shape(ld scale) {
-    vector<Point> shape3;
-    for (auto p : shape1) {
-        shape3.pb(Point(p.x * scale, p.y * scale));
-    }
-    if (get_area(shape3) >= get_area(shape2)) return true;
-    for (int i=0;i<shape3.size();i++) for (int j=0;j<shape2.size();j++) {
-        auto s1 = Segment(shape3[i], shape3[(i+1)%shape3.size()]);
-        auto s2 = Segment(shape2[j], shape2[(j+1)%shape2.size()]);
-        if (s1.is_intersect(s2))
-            return true;
-    }
-    
-    return false;
+double dist(pt a, pt b, pt p) {
+    return (p - (p + mirror(a, b, p))*0.5).d();
 }
 
-
-void solve() {
-    int n; 
-    cin >> n;
-    Point bg;
-    cin >> bg.x >> bg.y;
-    vector<Segment> seg(n);
-    vector<Point> maybe;
-    maybe.pb(bg);
-    for (int i = 0; i < n; i++) {
-        Point u, v;
-        cin >> u.x >> u.y;
-        cin >> v.x >> v.y;
-        seg[i] = Segment(u, v);
-        maybe.pb(u);
-        maybe.pb(v);
-    }
-    Point ed;
-    cin >> ed.x >> ed.y;
-    maybe.pb(ed);
-    int sz = maybe.size();
-    vector dp(1 << n, vector<ld> (sz, 1e18));
-    dp[0][0] = 0;
-    int lim = (1 << n) - 1;
-    for (int sta = 0; sta < lim; sta++) {
-        for (int ps = 0; ps < sz; ps++) {
-            if (dp[sta][ps] < inf - EPS) {
-                Point nw = maybe[ps];
-                int need = 0;
-                while (sta >> need & 1) ++need;
-                for (int nx = 0; nx < sz; nx++) {
-                    Segment cur = Segment(nw, maybe[nx]);
-                    int gain = 0;
-                    int st = need;
-                    Segment fir = cur;
-                    for (int l = st; l < n; l++) {
-                        if (fir.is_intersect(seg[l])) {
-                            gain |= (1 << l);
-                        } else {
-                            st = l;
-                            break;
-                        }
-                    }
-                    // if (gain == 0) continue;
-                    chkmin(dp[sta | gain][nx], dp[sta][ps] + (nw - maybe[nx]).length());
-                }
-
-
-
-                for (int chk = 0; chk < n; chk++) {
-                    Segment chkp = seg[chk];
-                    Line chkp_line = Line(chkp.a, chkp.b - chkp.a);
-                    Point rec_nw = chkp_line.symmetry(nw);
-                    // cerr << chk << ' ';
-                    // cerr << "!!" << nw.x << ',' << nw.y << ' ' << rec_nw.x << ',' << rec_nw.y << nl;
-                    for (int nx = 0; nx < sz; nx++) {
-                        Segment cur = Segment(rec_nw, maybe[nx]);
-                        if (!cur.is_intersect(chkp)) {
-                            continue;
-                        }
-                        Point md = chkp_line.intersect(Line(cur.a, cur.b - cur.a));
-                        int gain = 0;
-                        int st = need;
-                        Segment fir = Segment(nw, md);
-                        Segment sec = Segment(md, maybe[nx]);
-                        for (int l = st; l < n; l++) {
-                            if (l == chk || fir.is_intersect(seg[l])) {
-                                gain |= (1 << l);
-                            } else {
-                                st = l;
-                                break;
-                            }
-                        }
-                        for (int l = st; l < n; l++) {
-                            if (l == chk || sec.is_intersect(seg[l])) {
-                                gain |= (1 << l);
-                            } else {
-                                st = l;
-                                break;
-                            }
-                        }
-                        // if (gain == 0) continue;
-                        chkmin(dp[sta][nx], dp[sta][ps] + (rec_nw - maybe[nx]).length());
-                    }
-                }
-            }
-        }
-    }
-    cout << fixed << setprecision(12) << dp[lim][sz - 1] << nl;
+bool intersect(double x1, double x2, double x3, double x4) {
+    double l1 = min(x1, x2), r1 = max(x1, x2);
+    double l2 = min(x3, x4), r2 = max(x3, x4);
+    return max(l1, l2) <= min(r1, r2) + EPS;
 }
 
-signed main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    solve();
+int sign(double x) {
+    if (x > EPS) return 1;
+    if (x < -EPS) return -1;
     return 0;
+}
+
+bool intersect(pt A, pt B, pt C, pt D) {
+    bool res = 1;
+    res &= intersect(A.x, B.x, C.x, D.x);
+    res &= intersect(A.y, B.y, C.y, D.y);
+    res &= sign((C - A) * (B - A)) * sign((D - A) * (B - A)) <= 0;
+    res &= sign((A - C) * (D - C)) * sign((B - C) * (D - C)) <= 0;
+    return res;
+}
+
+
+double solve(vector<vector<pt>> a) {
+    int n = a.size() - 2;
+
+    double ans = INF;
+    for (int mask = 0; mask < (1 << n); mask++) {
+        auto b = a;
+        for (int i = 1; i <= n; i++) {
+            if (mask & (1 << (i - 1))) {
+                for (int j = i + 1; j <= n + 1; j++) {
+                    for (int t = 0; t < 2; t++) {
+                        b[j][t] = mirror(b[i][0], b[i][1], b[j][t]);
+                    }
+                }
+            }
+        }
+
+        vector<vector<double>> dp(n + 2, vector<double>(2, INF));
+        dp[0][0] = dp[0][1] = 0;
+        for (int i = 0; i <= n; i++) {
+            for (int ti = 0; ti < 2; ti++) {
+                for (int j = i + 1; j <= n + 1; j++) {
+                    for (int tj = 0; tj < 2; tj++) {
+                        bool ok = 1;
+                        double last_dist = 0;
+                        for (int k = i + 1; k < j; k++) {
+                            ok &= intersect(b[i][ti], b[j][tj], b[k][0], b[k][1]);
+                            double cur_dist = dist(b[k][0], b[k][1], b[i][ti]);
+                            ok &= cur_dist >= last_dist - EPS;
+                            last_dist = cur_dist;
+                        }
+                        if (ok) {
+                            dp[j][tj] = min(dp[j][tj], dp[i][ti] + (b[i][ti] - b[j][tj]).d());
+                        }
+                    }
+                }
+            }
+        }
+        double cans = min(dp[n + 1][0], dp[n + 1][1]);
+        ans = min(ans, cans);
+    }
+    return ans;
+}
+
+int main() {
+    cout.precision(10);
+    cout << fixed;
+
+    int n;
+    cin >> n;
+    vector<vector<pt>> a(n + 2, vector<pt>(2));
+    cin >> a[0][0].x >> a[0][0].y;
+    a[0][1] = a[0][0];
+    for (int i = 1; i <= n; i++) for (int j = 0; j < 2; j++) cin >> a[i][j].x >> a[i][j].y;
+    cin >> a[n+1][0].x >> a[n+1][0].y;
+    a[n+1][1] = a[n+1][0];
+
+    cout << solve(a) << endl;
 }

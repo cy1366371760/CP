@@ -1,0 +1,1 @@
+{"name":"Local: g","url":"/Users/cyoung/Desktop/CP/BAPC2022/g.cpp","tests":[{"id":1729196059285,"input":"5 8\n2 4 5 6 7\n","output":""},{"id":1729197438133,"input":"4 8\n2 3 8 3","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/BAPC2022/g.cpp","group":"local","local":true}

@@ -10,6 +10,7 @@
 #define VLL vector<ll>
 #define pll pair<ll, ll>
 #define double long double
+#define nl '\n'
 //#define int long long
 using namespace std;
 const int N = 1e6 + 100;
@@ -30,54 +31,54 @@ void debug_out(Head H, Tail... T)
 #define debug(...) 42
 #endif
 
+/*
+	For multiple strings
+	Consider concatenate them
+	Then use Z_algo
+	Get Z arrays
+	Z[i] indicates LCP of s[i...] and s[0...]
+	Notice s starts from index 0
+*/ 
+vector<int> Z_algo(string s) {
+	int n = s.length();
+	vector<int> Z(n, 0);
+	int lp = 0, rp = 0;
+	for(int i = 1; i < n; i++) {
+		if(i <= rp && i + Z[i - lp] - 1 < rp) {
+			Z[i] = Z[i - lp];
+		} else {
+			int k = max(0, rp - i + 1);
+			while(i + k < n && s[k] == s[i + k]) {
+				++k;
+			}
+			Z[i] = k;
+		}
+		if(i + Z[i] - 1 > rp) {
+			lp = i, rp = i + Z[i] - 1;
+		}
+	}
+	Z[0] = n;
+	return Z;
+}
+
 void sol()
 {
 	string s, t;
 	cin >> t >> s;
-	int n, m;
-	n = s.length();
-	m = t.length();
-	VI Z(n, 0);
-	int lp, rp;
-	lp = rp = 0;
-	for(int i = 1; i < n; i++)
-	{
-		if(i <= rp && i + Z[i - lp] - 1 < rp)
-			Z[i] = Z[i - lp];
-		else
-		{
-			int k = max(0, rp - i + 1);
-			while(i + k < n && s[k] == s[i + k])
-				++k;
-			Z[i] = k;
-		}
-		if(i + Z[i] - 1 > rp)
-			lp = i, rp = i + Z[i] - 1;
-	}
-	Z[0] = n;
+	int n = s.length();
+	int m = t.length();
+	s += t;
+	auto Z = Z_algo(s);
 	ll res = 0;
-	for(int i = 0; i < n; i++)
-		res ^= 1LL * (i + 1) * (Z[i] + 1);
-	cout << res << '\n';
-	res = 0;
-	lp = rp = -1;
-	VI ans(m, 0);
-	for(int i = 0; i < m; i++)
-	{
-		if(i <= rp && i + Z[i - lp] - 1 < rp)
-			ans[i] = Z[i - lp];
-		else
-		{
-			int k = max(0, rp - i + 1);
-			while(i + k < m && k < n && s[k] == t[i + k])
-				++k;
-			ans[i] = k;
-		}
-		if(i + ans[i] - 1 > rp)
-			lp = i, rp = i + ans[i] - 1;
-		res ^= 1LL * (i + 1) * (ans[i] + 1);
+	for (int i = 0; i < n; i++) {
+		res ^= 1LL * (i + 1) * (min(Z[i], n - i) + 1);
 	}
-	cout << res << '\n';
+	cout << res << nl;
+	res = 0;
+	for (int i = n; i < n + m; i++) {
+		res ^= 1LL * (i - n + 1) * (Z[i] + 1);
+	}
+	cout << res << nl;
 }
 
 signed main()

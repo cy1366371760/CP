@@ -1,0 +1,1 @@
+{"name":"Local: l","url":"/Users/cyoung/Desktop/CP/WF_2024/l.cpp","tests":[{"id":1729274247671,"input":"3 3\n##.\n#..\n...","output":""},{"id":1729276525722,"input":"","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/WF_2024/l.cpp","group":"local","local":true}

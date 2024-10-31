@@ -1,5 +1,5 @@
 const pll mod = pll(1e9 + 7, 1e9 + 9);
-const pll bas = pll(137, 139);
+const pll bas = pll(2e6 + 3, 2e6 + 29);
 pll operator *(pll a, pll b) {
 	return pll(a.fi * b.fi % mod.fi, a.sc * b.sc % mod.sc);
 }
