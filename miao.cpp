@@ -7,7 +7,7 @@
 #define eb emplace_back
 #define fi first
 #define sc second
-
+#define nl '\n'
 #define pii pair<int, int>
 #define pll pair<ll, ll>
 template<typename T> bool chkmin(T &a, T b){return (b < a) ? a = b, 1 : 0;}
@@ -19,6 +19,9 @@ const ll inf = 1e18;
 const ll mod = 998244353;
 
 void solve() {
+    cerr << sizeof (long double) << nl;
+    cerr << sizeof (double) << nl;
+    cerr << sizeof (__float128) << nl;
     int n = 32;
     int m = 8;
     int w = 80;

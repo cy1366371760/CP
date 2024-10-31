@@ -9,30 +9,15 @@
 #define VI vector<int>
 #define VLL vector<ll>
 #define pll pair<ll, ll>
-#define double long double
-//#define int long long
 using namespace std;
-
-#ifdef LOCAL
-void debug_out(){cerr << endl;}
-template<typename Head, typename... Tail>
-void debug_out(Head H, Tail... T)
-{
-	cerr << " " << to_string(H);
-	debug_out(T...);
-}
-#define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
-#else
-#define debug(...) 42
-#endif
 
 const int N = 1e6 + 100;  
 const ll inf = 1e18;  
 const ll mod = 998244353;//1e9 + 7;  
   
-using ld = ll;  
-const double eps = 1e-14;  
-const double pi = acosl(-1);  
+using ld = long double;
+const ld eps = 1e-14;  
+const ld pi = acosl(-1);  
 int sgn(ld x) {  
     return x < -eps ? -1 : x > eps;  
 }  
@@ -40,44 +25,44 @@ int cmp(ld x, ld y) {
     return sgn(x - y);  
 }  
   
-using T = ld;  
 struct Point { // 点   
-    T x, y;  
-    Point(T x = 0, T y = 0) : x(x), y(y) {}  
-    bool operator<(Point B) const{ // x第一关键字   
-        return x == B.x ? y < B.y : x < B.x;  
+    ld x, y;  
+    Point() {}
+    Point(ld x, ld y) : x(x), y(y) {}  
+    bool operator < (Point b) const { // x第一关键字   
+        return x == b.x ? y < b.y : x < b.x;  
     }  
-    bool operator==(Point B) const{  
-        return !sgn(x - B.x) && !sgn(y - B.y);  
+    bool operator ==(Point b) const {  
+        return !sgn(x - b.x) && !sgn(y - b.y);  
     }  
-    bool operator <=(Point B) const {  
-        return ((*this) < B || (*this) == B);  
+    bool operator <=(Point b) const {  
+        return ((*this) < b || (*this) == b);  
     }  
-    Point operator+(Point B) const{  
-        return Point(x + B.x, y + B.y);  
+    Point operator +(Point b) {  
+        return Point(x + b.x, y + b.y);  
     }  
-    Point operator-(Point B) const{  
-        return Point(x - B.x, y - B.y);  
+    Point operator -(Point b) {  
+        return Point(x - b.x, y - b.y);  
     }  
-    Point operator*(T a) const{ // 标量乘   
+    Point operator *(ld a) { // 标量乘   
         return Point(x * a, y * a);  
     }  
-    Point operator/(T a) const{ // 标量除  
+    Point operator /(ld a) { // 标量除  
         return Point(x / a, y / a);  
     }  
-    T operator*(Point B) const{ // 点积   
-        return x * B.x + y * B.y;  
+    ld operator *(Point b) { // 点积   
+        return x * b.x + y * b.y;  
     }  
-    T operator^(Point B) const{ // 叉积模长   
-        return x * B.y - y * B.x;  
+    ld operator ^(Point b) { // 叉积模长   
+        return x * b.y - y * b.x;  
     }  
-    Point operator-() const{    // 取负,关于原点对称   
+    Point operator -() {    // 取负,关于原点对称   
         return Point(-x, -y);  
     }  
     ld angle() {    // 反正切,与x轴方位角, (-pi, pi]    
         return atan2l(this->y, this->x);  
     }  
-    T length2() { // 视为原点到(x,y)向量，模长的平方   
+    ld length2() { // 视为原点到(x,y)向量，模长的平方   
         return x * x + y * y;  
     }  
     ld length() { // 模长   
@@ -108,16 +93,16 @@ struct Point { // 点
     Point rotate(ld rad) {  // 逆时针旋转 rad 弧度    
         return Point(x * cos(rad) - y * sin(rad), x * sin(rad) + y * cos(rad));  
     }  
-    friend int rela(Point a, Point b, Point c) { // c是否在(a,b)的逆时针侧   
+    friend int ccw(Point a, Point b, Point c) { // c是否在(a,b)的逆时针侧   
         return sgn((b - a) ^ (c - a));  
     }  
     friend ld get_angle(Point a, Point b) { // 向量夹角   
         return acosl((a * b) / a.length() / b.length());  
     }  
-    friend T area(Point a, Point b, Point c) { //    
+    friend ld area(Point a, Point b, Point c) { //    
         return fabsl((b - a) ^ (c - a)); // (a,b)(a,c)平行四边形面积   
     }  
-    friend T get_dis2(Point a, Point b) { // 两间距离方   
+    friend ld get_dis2(Point a, Point b) { // 两间距离方   
         return (a - b).length2();  
     }  
     friend ld get_dis(Point a, Point b) { // 两点距离   
@@ -126,7 +111,7 @@ struct Point { // 点
     friend ld project(Point a, Point b, Point c) {  // 求向量ac在向量ab上的投影长度  
         return ((b - a) * (c - a)) / (b - a).length();  
     }  
-    bool up() const { // 是否在一二象限内,象限的定义均为左闭右开,即第一象限[0, pi/2)   
+    bool up() { // 是否在一二象限内,象限的定义均为左闭右开,即第一象限[0, pi/2)   
         return y > 0 || (y == 0 && x >= 0);  
     }  
     friend ostream& operator<<(ostream& os, Point a) {  
@@ -145,7 +130,7 @@ Point rotate(Point a, Point bas, ld theta) { // a点绕bas点逆时针转theta�
 Point reflect(Point v, Point l) { // 光线v照射到平面l后反射  
     Point res;  
     Point E = l / l.length();  // 单位向量  
-    T d = E * v;  
+    ld d = E * v;  
     return (E * 2 * d - v);  
 }  
   
@@ -161,7 +146,7 @@ struct Line { // 直线
         return p + v * t;  
     }  
     int under(Point a) { // 射线是否在点a下方   
-        return rela(p, p + v, a);   
+        return ccw(p, p + v, a);   
     }   
     bool operator <(Line b) { // 比较   
         if (!cmp(rad, b.rad)) {  
@@ -195,7 +180,7 @@ struct Line { // 直线
     Point intersect(Line b) {  // 两直线交点(不能平行)  
         assert(!parallel(b));  
         Point u = p - b.p;  
-        T t = (b.v ^ u) / (v ^ b.v);  
+        ld t = (b.v ^ u) / (v ^ b.v);  
         return get_point(t);  
     }  
 };  
@@ -236,9 +221,9 @@ struct Segment { // 线段
         if (parallel(seg)) { //线段平行  
             return colinear(seg);  
         }  
-        const Point &a1 = a, &a2 = b, &b1 = seg.a, &b2 = seg.b;  
-        T c1 = (a2 - a1) ^ (b1 - a1), c2 = (a2 - a1) ^ (b2 - a1);  
-        T c3 = (b2 - b1) ^ (a1 - b1), c4 = (b2 - b1) ^ (a2 - b1);  
+         Point &a1 = a, &a2 = b, &b1 = seg.a, &b2 = seg.b;  
+        ld c1 = (a2 - a1) ^ (b1 - a1), c2 = (a2 - a1) ^ (b2 - a1);  
+        ld c3 = (b2 - b1) ^ (a1 - b1), c4 = (b2 - b1) ^ (a2 - b1);  
         return sgn(c1) * sgn(c2) <= 0 && sgn(c3) * sgn(c4) <= 0;  
     }  
     bool isIntersect(Line l) { // 线段和直线是否相交 (含端点)  
@@ -318,7 +303,7 @@ vector<Line> get_half_plane(Point u, Segment v) {
 } 
 
 // (回转数法) 判点在多边形内外；点在多边形内返回1, 点在多边形外返回0, 点在多边形上返回-1
-int point_in_polygon(const Point& p, vector<Point>& poly) {
+int point_in_polygon( Point& p, vector<Point>& poly) {
     int wn = 0;
     int n = poly.size();
     for (int i = 0; i < n; i++) {
@@ -337,14 +322,14 @@ int point_in_polygon(const Point& p, vector<Point>& poly) {
     return 0;
 }
 
-int inConvex(const Point& p, const vector<Point>& a) {   // a为凸包(按顺序排列), 1 内 0 外 -1边上 
+int inConvex( Point& p,  vector<Point>& a) {   // a为凸包(按顺序排列), 1 内 0 外 -1边上 
 	if (a.empty())
 		return false;
 	int l = 1, r = a.size() - 1;
 	while (l <= r) {
 		int mid = l + r >> 1;
-		double ls = (a[mid] - a[0]) ^ (p - a[0]);
-		double rs = (a[mid + 1] - a[0]) ^ (p - a[0]);
+		ld ls = (a[mid] - a[0]) ^ (p - a[0]);
+		ld rs = (a[mid + 1] - a[0]) ^ (p - a[0]);
 		if (ls >= 0 && rs <= 0) {
 			int type = sgn((a[mid + 1] - a[mid]) ^ (p - a[mid]));
 			if (type == 0)
@@ -363,8 +348,8 @@ int inConvex(const Point& p, const vector<Point>& a) {   // a为凸包(按顺序
 
 struct Circle {
     Point p;
-    double r;
-    Circle(Point _p = Point(0, 0), double _r = 0) : p(_p), r(_r) {}
+    ld r;
+    Circle(Point _p = Point(0, 0), ld _r = 0) : p(_p), r(_r) {}
     // 三角形外接圆
     Circle(Point a, Point b, Point c) {
         Line u = Line({(a + b) / 2}, {(b - a).rotate(pi / 2)});
@@ -375,7 +360,7 @@ struct Circle {
     // 三角形内切圆(bool t 只是为了与外接圆区别)
     Circle(Point a, Point b, Point c, bool t) {
         Line u, v;
-        double m = atan2l(b.y - a.y, b.x - a.x), n = atan2l(c.y - a.y, c.x - a.x);
+        ld m = atan2l(b.y - a.y, b.x - a.x), n = atan2l(c.y - a.y, c.x - a.x);
         u.p = a;
         u.v = u.p + Point(cos((n + m) / 2), sin((n + m) / 2));
         v.p = b;
@@ -387,18 +372,18 @@ struct Circle {
     bool operator==(Circle v) {
         return (p == v.p) && sgn(r - v.r) == 0;
     }
-    bool operator<(Circle v) const {
+    bool operator<(Circle v)  {
         return ((p < v.p) || ((p == v.p) && sgn(r - v.r) < 0));
     }
-    double area() {
+    ld area() {
         return pi * r * r;
     }
-    double length() {
+    ld length() {
         return 2 * pi * r;
     }
     // 点和圆的关系        -1圆内   0圆上   1圆外
-    int rela(Point a) {
-        double dist = get_dis(p, a);
+    int ccw(Point a) {
+        ld dist = get_dis(p, a);
         if (sgn(dist - r) < 0)
             return -1;
         else if (sgn(dist - r) == 0)
@@ -406,8 +391,8 @@ struct Circle {
         return 1;
     }
     // 直线和圆的关系     -1相交   0相切    1相离
-    int line_rela(Line v) {
-        double dist = v.dis2point(p);
+    int line_ccw(Line v) {
+        ld dist = v.dis2point(p);
         if (sgn(dist - r) < 0)
             return -1;
         else if (sgn(dist - r) == 0)
@@ -416,13 +401,13 @@ struct Circle {
             return 1;
     }
     // 两圆的关系  5 相离   4 外切   3 相交   2内切    1 内含
-    int circle_rela(Circle v) {
-        double dist = get_dis(p, v.p);
+    int circle_ccw(Circle v) {
+        ld dist = get_dis(p, v.p);
         if (sgn(dist - r - v.r) > 0)
             return 5;
         if (sgn(dist - r - v.r) == 0)
             return 4;
-        double l = fabs(r - v.r);
+        ld l = fabs(r - v.r);
         if (sgn(dist - r - v.r) < 0 && sgn(dist - l) > 0)
             return 3;
         if (sgn(dist - l) == 0)
@@ -433,12 +418,12 @@ struct Circle {
     }
     // 求两个圆的交点，并返回交点个数
     int cross_circle(Circle v, Point& p1, Point& p2) {
-        int rel = circle_rela(v);
+        int rel = circle_ccw(v);
         if (rel == 1 || rel == 5)
             return 0;
-        double d = get_dis(p, v.p);
-        double l = (d * d + r * r - v.r * v.r) / (d * 2);
-        double h = sqrtl(r * r - l * l);
+        ld d = get_dis(p, v.p);
+        ld l = (d * d + r * r - v.r * v.r) / (d * 2);
+        ld h = sqrtl(r * r - l * l);
         Point tmp = p + (v.p - p).trunc(l);
         p1 = tmp + ((v.p - p).to_left().trunc(h));
         p2 = tmp + ((v.p - p).to_right().trunc(h));
@@ -448,10 +433,10 @@ struct Circle {
     }
     // 求直线和圆的交点，返回交点个数
     int cross_line(Line v, Point& p1, Point& p2) {
-        if ((*this).line_rela(v) == 1)
+        if ((*this).line_ccw(v) == 1)
             return 0;
         Point a = v.foot(p);
-        double d = v.dis2point(p);
+        ld d = v.dis2point(p);
         d = sqrtl(r * r - d * d);
         if (sgn(d) == 0) {
             p1 = a, p2 = a;
@@ -463,7 +448,7 @@ struct Circle {
     }
     // 过一点作圆的切线(先判断点和圆的关系)
     int tangent_line(Point q, Line& u, Line& v) {
-        int x = rela(q);
+        int x = ccw(q);
         if (x == -1)
             return 0;
         if (x == 0) {
@@ -471,30 +456,30 @@ struct Circle {
             v = u;
             return 1;
         }
-        double d = get_dis(p, q);
-        double rad = asin(r / d);
+        ld d = get_dis(p, q);
+        ld rad = asin(r / d);
         u = Line(q, (p - q).rotate(rad));
         v = Line(q, (p - q).rotate(-rad));
         return 2;
     }
     // 求两圆相交面积
-    double circle_cross_area(Circle v) {
-        int rel = circle_rela(v);
+    ld circle_cross_area(Circle v) {
+        int rel = circle_ccw(v);
         if (rel >= 4)
             return 0;
         if (rel <= 2)
             return min(area(), v.area());
-        double d = get_dis(p, v.p);
-        double hf = (r + v.r + d) / 2;
-        double ss = 2 * sqrtl(hf * (hf - r) * (hf - v.r) * (hf - d));
-        double a1 = acos((r * r + d * d - v.r * v.r) / (2.0 * r * d));
+        ld d = get_dis(p, v.p);
+        ld hf = (r + v.r + d) / 2;
+        ld ss = 2 * sqrtl(hf * (hf - r) * (hf - v.r) * (hf - d));
+        ld a1 = acos((r * r + d * d - v.r * v.r) / (2.0 * r * d));
         a1 = a1 * r * r;
-        double a2 = acos((v.r * v.r + d * d - r * r) / (2.0 * v.r * d));
+        ld a2 = acos((v.r * v.r + d * d - r * r) / (2.0 * v.r * d));
         a2 = a2 * v.r * v.r;
         return a1 + a2 - ss;
     }
     // 得到过a,b两点, 半径为r1的两个圆
-    friend int get_circle(Point a, Point b, double r1, Circle& c1, Circle& c2) {
+    friend int get_circle(Point a, Point b, ld r1, Circle& c1, Circle& c2) {
         Circle x(a, r1), y(b, r1);
         int t = x.cross_circle(y, c1.p, c2.p);
         if (!t)
@@ -508,22 +493,22 @@ template <class T>
 struct convex {
 	vector<Point> q;
 	convex() {}
-	convex(vector<Point>& B) : q(B) {}
-	convex(const convex& B) : q(B.q) {}
-	convex& operator=(const convex& B) {
-		q = B.q;
+	convex(vector<Point>& b) : q(b) {}
+	convex( convex& b) : q(b.q) {}
+	convex& operator=( convex& b) {
+		q = b.q;
 		return *this;
 	}
 	Point& operator[](int x) noexcept {
 		return q[x];
 	}
-	int size() const {
+	int size()  {
 		return q.size();
 	}
-	int nxt(int x) const {
+	int nxt(int x)  {
 		return x == size() - 1 ? 0 : x + 1;
 	}
-	int pre(int x) const {
+	int pre(int x)  {
 		return x == 0 ? size() - 1 : x - 1;
 	}
 	void init(vector<Point>& v) {
@@ -545,8 +530,8 @@ struct convex {
 			q.push_back(v[st[i]]);
 		return;
 	}
-	double get_length() {
-		double res = 0;
+	ld get_length() {
+		ld res = 0;
 		for (int i = 0; i < size(); i++)
 			res += get_dist(q[i], q[nxt(i)]);
 		return res;
@@ -557,12 +542,12 @@ struct convex {
 			res += (q[i] ^ q[nxt(i)]);
 		return abs(res);
 	}
-    Point getBaryCentre() const {  // 重心
+    Point getBaryCentre()  {  // 重心
 		Point res(0, 0);
-		double are = 0;
-		const int sz = size();
+		ld are = 0;
+		 int sz = size();
 		for (int i = 1; i < sz - 1; i++) {
-			double tmp = (q[i] - q[0]) ^ (q[i + 1] - q[0]);
+			ld tmp = (q[i] - q[0]) ^ (q[i + 1] - q[0]);
 			if (!sgn(tmp))
 				continue;
 			are += tmp;
@@ -581,16 +566,16 @@ struct convex {
 		sum.resize(q.size());
 		partial_sum(a.begin(), a.end(), sum.begin());
 	}
-	T query_sum(int l, int r) const {
+	T query_sum(int l, int r)  {
 		if (l <= r)
 			return sum[r] - sum[l] + (q[r] ^ q[l]);
 		return sum[size() - 1] - sum[l] + sum[r] + (q[r] ^ q[l]);
 	}
 
 	// 闵可夫斯基和
-	convex operator+(const convex& B) const {
-		const auto& a = this->q;
-		const auto& b = B.q;
+	convex operator+( convex& B)  {
+		 auto& a = this->q;
+		 auto& b = B.q;
 		int n = q.size(), m = b.size();
 		Point sa = q[0], sb = b[0];
 		for (int i = 0; i < n; i++) {
@@ -608,7 +593,7 @@ struct convex {
 			d[i] = a[(i + 1) % n] - a[i];
 		for (int i = 0; i < m; i++)
 			d[n + i] = b[(i + 1) % m] - b[i];
-		sort(d.begin(), d.end(), [&](const Point& A, const Point& B) {
+		sort(d.begin(), d.end(), [&]( Point& A,  Point& B) {
 			if (A.up() ^ B.up())
 				return A.up() > B.up();
 			return (A ^ B) > 0;
@@ -624,7 +609,7 @@ struct convex {
 
 	// 旋转卡壳
 	template <class F>
-	void rotating_calipres(const F& func) const {
+	void rotating_calipres( F& func)  {
 		for (int i = 0, j = 1; i < q.size(); i++) {
 			auto d = q[i], e = q[nxt(i)];
 			func(d, e, q[j]);
@@ -636,13 +621,13 @@ struct convex {
 	}
 
 	// 凸包直径(平方)
-	T diameter2() const {
+	T diameter2()  {
 		if (q.size() == 1)
 			return 0;
 		if (q.size() == 2)
 			return get_dis2(q[0], q[1]);
 		T ans = 0;
-		auto func = [&](const Point& a, const Point& b, const Point& c) {
+		auto func = [&]( Point& a,  Point& b,  Point& c) {
 			ans = max({ans, get_dis2(a, c), get_dis2(b, c)});
 		};
 		rotating_calipres(func);
@@ -651,20 +636,20 @@ struct convex {
 
 	// 凸多边形关于某一方向的极点, 复杂度 O(logn)
 	template <class F>
-	int extreme(const F& dir) const {
-		const auto check = [&](const int i) {
+	int extreme( F& dir)  {
+		 auto check = [&]( int i) {
 			return sgn(dir(q[i]) ^ (q[nxt(i)] - q[i])) >= 0;
 		};
-		const auto dir0 = dir(q[0]);
-		const auto check0 = check(0);
+		 auto dir0 = dir(q[0]);
+		 auto check0 = check(0);
 		if (!check0 && check(this->size() - 1))
 			return 0;
-		const auto cmp = [&](const Point& v) {
-			const int vi = &v - q.data();
+		 auto cmp = [&]( Point& v) {
+			 int vi = &v - q.data();
 			if (vi == 0)
 				return 1;
-			const auto checkv = check(vi);
-			const auto t = sgn(dir0 ^ (v - q[0]));
+			 auto checkv = check(vi);
+			 auto t = sgn(dir0 ^ (v - q[0]));
 			if (vi == 1 && checkv == check0 && sgn(dir0 ^ (v - q[0])) == 0)
 				return 1;
 			return checkv ^ (checkv == check0 && t <= 0);
@@ -674,38 +659,38 @@ struct convex {
 
 	// 过凸多边形外一点求凸多边形的切线, 返回切点下标, 复杂度 O(logn)
 	// 必须保证点在多边形外
-	pair<int, int> tangent(const Point& a) const {
-		const int i = extreme([&](const Point& u) {
+	pair<int, int> tangent( Point& a)  {
+		 int i = extreme([&]( Point& u) {
 			return u - a;
 		});
-		const int j = extreme([&](const Point& u) {
+		 int j = extreme([&]( Point& u) {
 			return a - u;
 		});
 		return {i, j};
 	}
 
 	// 求平行于给定直线的凸多边形的切线, 返回切点下标, 复杂度 O(logn)
-	pair<int, int> tangent(const Line& a) const {
-		const int i = extreme([&](...) {
+	pair<int, int> tangent( Line& a)  {
+		 int i = extreme([&](...) {
 			return a.v;
 		});
-		const int j = extreme([&](...) {
+		 int j = extreme([&](...) {
 			return -a.v;
 		});
 		return {i, j};
 	}
 	
-	friend int inConvex(const Point& p, const convex& c) {
+	friend int inConvex( Point& p,  convex& c) {
 		return inConvex(p, c.q);
 	}
 };
 using Convex = convex<ld>;
 
 using _T = ld;
-pair<_T, _T> minmax_triangle(const vector<Point>& vec) { //最小最大三角形面积
+pair<_T, _T> minmax_triangle( vector<Point>& vec) { //最小最大三角形面积
 	if (vec.size() <= 2)
 		return {0, 0};
-	const _T tmpans = abs((vec[0] - vec[1]) ^ (vec[0] - vec[2]));
+	 _T tmpans = abs((vec[0] - vec[1]) ^ (vec[0] - vec[2]));
 	_T maxans = tmpans, minans = tmpans;
 
 	vector<pair<int, int>> evt;
@@ -718,8 +703,8 @@ pair<_T, _T> minmax_triangle(const vector<Point>& vec) { //最小最大三角形
 			evt.push_back({i, j});
 		}
 	}
-	sort(evt.begin(), evt.end(), [&](const pair<int, int>& u, const pair<int, int>& v) {
-		const Point du = vec[u.second] - vec[u.first], dv = vec[v.second] - vec[v.first];
+	sort(evt.begin(), evt.end(), [&]( pair<int, int>& u,  pair<int, int>& v) {
+		 Point du = vec[u.second] - vec[u.first], dv = vec[v.second] - vec[v.first];
 		return argcmp({du.y, -du.x}, {dv.y, -dv.x});
 	});
 	vector<signed> vx(vec.size()), pos(vec.size());
@@ -734,7 +719,7 @@ pair<_T, _T> minmax_triangle(const vector<Point>& vec) { //最小最大三角形
 		signed i = pos[u], j = pos[v];
 		if (i > j)
 			swap(u, v), swap(i, j);
-		const Point vecu = vec[u], vecv = vec[v];
+		 Point vecu = vec[u], vecv = vec[v];
 		if (i > 0)
 			minans = min(minans, abs((vec[vx[i - 1]] - vecu) ^ (vec[vx[i - 1]] - vecv)));
 		if (j < vx.size() - 1)
@@ -754,7 +739,7 @@ struct Hull {
 		if (r == s.end() || l == s.begin())
 			return false;
 		l--;
-		return rela(*l, u, *r) * flag >= 0;
+		return ccw(*l, u, *r) * flag >= 0;
 	}
 	void insert(set<Point>& s, Point u, int flag) {
 		if (query(s, u, flag))
@@ -768,7 +753,7 @@ struct Hull {
 			if (l == s.begin())
 				break;
 			l--;
-			if (rela(*l, *mid, u) * flag <= 0)
+			if (ccw(*l, *mid, u) * flag <= 0)
 				break;
 			s.erase(mid);
 		}
@@ -781,7 +766,7 @@ struct Hull {
 			r++;
 			if (r == s.end())
 				break;
-			if (rela(u, *mid, *r) * flag <= 0)
+			if (ccw(u, *mid, *r) * flag <= 0)
 				break;
 			s.erase(mid);
 		}
