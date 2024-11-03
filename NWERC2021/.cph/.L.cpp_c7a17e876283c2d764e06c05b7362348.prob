@@ -1,0 +1,1 @@
+{"name":"Local: L","url":"/homes/yc3924/Desktop/CP/NWERC2021/L.cpp","tests":[{"id":1730459066425,"input":"3 2 2\n","output":""},{"id":1730459073059,"input":"5 1 1\n","output":""},{"id":1730459103997,"input":"10 7 100\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/homes/yc3924/Desktop/CP/NWERC2021/L.cpp","group":"local","local":true}

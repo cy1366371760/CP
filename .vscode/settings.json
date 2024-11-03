@@ -24,6 +24,19 @@
         "variant": "cpp",
         "__locale": "cpp",
         "limits": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "stacktrace": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_set": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "regex": "cpp",
+        "valarray": "cpp",
+        "format": "cpp",
+        "generator": "cpp",
+        "text_encoding": "cpp",
+        "set": "cpp"
     }
 }
