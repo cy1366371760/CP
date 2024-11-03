@@ -1,0 +1,1 @@
+{"name":"Local: A","url":"/Users/cyoung/Desktop/CP/cf2032/A.cpp","tests":[{"id":1730472803909,"input":"5\n1\n0 0\n1\n0 1\n1\n1 1\n3\n0 0 1 0 1 0\n3\n0 1 1 1 0 0\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/cyoung/Desktop/CP/cf2032/A.cpp","group":"local","local":true}
